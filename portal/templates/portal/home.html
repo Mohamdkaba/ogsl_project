@@ -1,0 +1,196 @@
+{% extends "portal/base.html" %}
+{% block title %}OGSL — Accueil{% endblock %}
+
+{% block content %}
+<!-- 🌅 SECTION HÉRO (bannière d’accueil) -->
+<section class="hero-gradient py-5">
+  <div class="container text-center">
+    <h1 class="display-4 fw-bold text-white mb-2">OGSL</h1>
+    <p class="text-white-50 mb-4">Observatoire Global du Saint-Laurent</p>
+    <p class="lead text-white-50">
+      Explorer les données ouvertes liées au Saint-Laurent et à l’environnement québécois.
+    </p>
+
+    <!-- 🔍 Barre de recherche -->
+    <form class="row justify-content-center g-2 mt-4" method="get" action="/portal/search/">
+      <div class="col-12 col-md-6">
+        <input
+          name="q"
+          class="form-control form-control-lg"
+          type="search"
+          placeholder="Rechercher les jeux de données..."
+        />
+      </div>
+      <div class="col-12 col-md-2 d-grid">
+        <button class="btn btn-light btn-lg fw-semibold">
+          <i class="fa-solid fa-magnifying-glass me-2"></i>Rechercher
+        </button>
+      </div>
+    </form>
+
+    <!-- 📊 Statistiques principales -->
+    <div class="stats-panel-centered mt-5 p-4 rounded-4 shadow glass mx-auto" style="max-width: 600px">
+      <div class="row text-center g-3">
+        <div class="col-6 col-md-3">
+          <div class="stat-value">{{ stats.sources_count }}</div>
+          <div class="stat-label">Sources</div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-value">{{ stats.datasets_count }}</div>
+          <div class="stat-label">Jeux de données</div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-value">{{ stats.organizations_count }}</div>
+          <div class="stat-label">Organisations</div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-value">{{ stats.themes_count }}</div>
+          <div class="stat-label">Thèmes</div>
+        </div>
+      </div>
+      <div class="text-center mt-3">
+        <a href="/dashboard/" class="btn btn-dark btn-lg px-4">
+          <i class="fa-solid fa-chart-column me-2"></i>Voir le tableau de bord
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 🤝 SECTION SOURCES PARTENAIRES -->
+<section class="py-5">
+  <div class="container">
+    <h2 class="h4 fw-bold mb-3">Sources partenaires</h2>
+    <div class="row g-3">
+      {% for s in sources_cards %}
+      <div class="col-6 col-md-3">
+        <a href="{{ s.url }}" target="_blank" class="text-decoration-none">
+          <div
+            class="source-card rounded-4 p-3 d-flex align-items-center justify-content-center source-{{ s.color }}"
+          >
+            <span class="fw-semibold">{{ s.name }}</span>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- 🗺️ SECTION MINI-CARTE -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2 class="h4 fw-bold mb-0">Aperçu cartographique</h2>
+      <a href="/dashboard/map/" class="btn btn-outline-primary btn-sm">
+        <i class="fa-solid fa-map me-2"></i>Carte complète
+      </a>
+    </div>
+    <div id="miniMap"></div>
+  </div>
+</section>
+
+<!-- 📋 SECTION LISTE COMPLÈTE DES JEUX DE DONNÉES -->
+<section class="py-5">
+  <div class="container">
+    <h2 class="h4 fw-bold mb-3">Liste des jeux de données</h2>
+    <div class="row g-4">
+      {% for d in page_obj %}
+      <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm rounded-4">
+          <div class="card-body">
+            <h5 class="card-title">{{ d.title }}</h5>
+            <p class="card-text text-muted">
+              {{ d.description|truncatechars:140 }}
+            </p>
+          </div>
+          <div
+            class="card-footer bg-white d-flex justify-content-between align-items-center"
+          >
+            <small class="text-muted">Source : {{ d.source.name }}</small>
+            <a href="{{ d.url }}" target="_blank" class="btn btn-sm btn-primary">
+              Ouvrir
+            </a>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <div class="col-12 text-muted text-center">
+        Aucun jeu de données trouvé.
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- 📑 PAGINATION -->
+    <nav aria-label="Pagination des jeux de données" class="mt-4">
+      <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.previous_page_number }}">«</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link">«</span></li>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+          {% if num == page_obj.number %}
+            <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+          {% elif num >= page_obj.number|add:-2 and num <= page_obj.number|add:2 %}
+            <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+          {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.next_page_number }}">»</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link">»</span></li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+</section>
+
+<!-- 🔍 SECTION À PROPOS DU PROJET OGSL -->
+{% include 'portal/includes/about.html' %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    let points = [];
+
+    try {
+      points = JSON.parse("{{ points|safe|escapejs }}");
+    } catch (error) {
+      console.warn("⚠️ Impossible de parser les points :", error);
+      points = [];
+    }
+
+    // 🗺️ Mini-carte Leaflet
+    const map = L.map("miniMap", { scrollWheelZoom: false }).setView([46.8, -71.2], 5);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 18,
+      attribution: "&copy; OpenStreetMap contributors",
+    }).addTo(map);
+
+    const markers = [];
+
+    points.forEach((p) => {
+      if (p.latitude && p.longitude) {
+        const marker = L.marker([p.latitude, p.longitude]).addTo(map);
+        marker.bindPopup(
+          `<strong>${p.title}</strong><br/><small>${p.description ? p.description : ""}</small>`
+        );
+        markers.push(marker);
+      }
+    });
+
+    if (markers.length > 0) {
+      const group = L.featureGroup(markers);
+      map.fitBounds(group.getBounds(), { padding: [20, 20] });
+    }
+  });
+</script>
+{% endblock %}

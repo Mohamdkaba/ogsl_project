@@ -1,0 +1,94 @@
+{% extends "portal/base.html" %}
+{% load static %}
+
+{% block title %}Carte interactive — OGSL{% endblock %}
+
+{% block extra_head %}
+  <!-- 🌍 Librairie Leaflet (cartographie) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- 🎨 Style local pour la carte -->
+  <style>
+    #map {
+      height: 85vh;
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+    }
+    .popup-title {
+      font-weight: 600;
+      font-size: 1.05rem;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <div class="container py-4">
+    <!-- 🗺️ Titre principal -->
+    <h2 class="text-center mb-4 fw-bold text-primary">
+      Carte interactive des jeux de données OGSL
+    </h2>
+
+    <!-- 📍 Carte Leaflet -->
+    <div id="map"></div>
+  </div>
+
+  <!-- 🔍 Bloc "À propos du projet OGSL" -->
+  {% include 'portal/includes/about.html' %}
+{% endblock %}
+
+{% block extra_js %}
+  <script>
+    /* ============================
+       🗺️ Initialisation de la carte Leaflet
+       ============================ */
+    const map = L.map("map").setView([56.1304, -106.3468], 4);
+
+    // 🗺️ Fond de carte OpenStreetMap
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 18,
+      attribution: "© OpenStreetMap contributors",
+    }).addTo(map);
+
+    // ✅ Récupération des jeux de données envoyés par Django
+    const datasets = JSON.parse("{{ datasets_json|escapejs }}");
+
+    // 🎨 Couleurs harmonisées avec le tableau de bord
+    const colorMap = {
+      OpenGouv: "#3b82f6",        // Bleu
+      CanWin: "#f59e0b",          // Jaune
+      "Données Québec": "#22c55e", // Vert
+      Boréalis: "#ef4444",        // Rouge
+      Inconnue: "gray",
+    };
+
+    // 📍 Ajout des marqueurs pour chaque jeu de données
+    datasets.forEach((d) => {
+      const color = colorMap[d.source] || "purple";
+
+      const marker = L.circleMarker([d.latitude, d.longitude], {
+        color: color,
+        radius: 8,
+        fillOpacity: 0.85,
+        weight: 2,
+      }).addTo(map);
+
+      // 💬 Contenu de la fenêtre popup
+      const popupContent = `
+        <div class="popup-title">${d.title}</div>
+        <div><strong>Source :</strong> ${d.source}</div>
+        <div class="text-muted" style="font-size:0.9em;">${d.description}</div>
+        <a href="${d.url}" target="_blank">Voir le jeu de données</a>
+      `;
+
+      marker.bindPopup(popupContent);
+    });
+
+    // 🔍 Ajustement automatique du zoom pour englober tous les points
+    if (datasets.length > 0) {
+      const bounds = L.latLngBounds(datasets.map((d) => [d.latitude, d.longitude]));
+      map.fitBounds(bounds);
+    }
+  </script>
+{% endblock %}

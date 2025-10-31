@@ -1,0 +1,24 @@
+Django==5.2.7
+djangorestframework==3.15.2
+drf-yasg==1.21.7
+graphene-django==3.2.2
+django-filter==24.3
+
+# Auth JWT
+djangorestframework-simplejwt==5.3.1
+
+# Déploiement Render
+gunicorn==22.0.0
+whitenoise==6.7.0
+dj-database-url==2.3.0
+python-dotenv==1.0.1
+psycopg2-binary==2.9.9 ; sys_platform != "win32"
+
+
+# Base de données locale (chez toi)
+mysql-connector-python==9.0.0
+
+
+# Utilitaires
+requests==2.32.3
+beautifulsoup4==4.12.3

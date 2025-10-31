@@ -1,0 +1,21 @@
+# Fichiers sensibles
+.env
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+/staticfiles
+/media
+
+# Environnements virtuels
+venv/
+.env/
+*.log
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

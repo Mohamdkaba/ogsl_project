@@ -1,0 +1,258 @@
+/* ==========================================
+   🎨 STYLES GLOBAUX - OGSL
+   Fusion de home.css + style.css
+   ========================================== */
+
+/* --- Base globale --- */
+body {
+  background-color: #f8f9fa;
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+  color: #212529;
+  margin: 0;
+  padding: 0;
+}
+
+/* --- Titres --- */
+h1 {
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-bottom: 40px;
+}
+h4 {
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* ==========================================
+   🌅 SECTION HERO (page d'accueil)
+   ========================================== */
+.hero-gradient {
+  background: radial-gradient(
+    1200px 600px at 5% 0%,
+    #2703f5 0%,
+    #1f2fbd 60%,
+    #3a64be 100%
+  );
+  color: #fff;
+  position: relative;
+}
+
+/* Bouton principal de recherche */
+.hero-gradient .btn-light {
+  background-color: #ef4444;
+  border: none;
+  color: white;
+  transition: 0.3s ease;
+}
+.hero-gradient .btn-light:hover {
+  background-color: #b91c1c;
+}
+
+/* Panneau statistique (effet verre) */
+.glass {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* Stats dans le hero */
+.stat-card {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  padding: 1rem 0.75rem;
+  color: #fff;
+}
+.stat-value {
+  font-size: 1.75rem;
+  font-weight: 800;
+  line-height: 1;
+}
+.stat-label {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+/* ==========================================
+   📦 CARTES DE STATISTIQUES / DASHBOARD
+   ========================================== */
+.card {
+  border: none;
+  border-radius: 12px;
+  transition: all 0.3s ease-in-out;
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
+}
+.card h5 {
+  font-weight: 600;
+  color: #6c757d;
+  margin-bottom: 10px;
+}
+.card h2 {
+  font-weight: 700;
+}
+
+/* Couleurs personnalisées pour les cartes */
+.card:nth-child(1) h2 {
+  color: #007bff; /* Sources */
+}
+.card:nth-child(2) h2 {
+  color: #ffc107; /* Organisations */
+}
+.card:nth-child(3) h2 {
+  color: #17a2b8; /* Thèmes */
+}
+.card:nth-child(4) h2 {
+  color: #dc3545; /* Jeux de données */
+}
+
+/* ==========================================
+   🤝 SOURCES PARTENAIRES (Accueil)
+   ========================================== */
+.source-card {
+  text-align: center;
+  color: #fff;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  min-height: 84px;
+  font-size: 1.05rem;
+  border-radius: 1rem;
+}
+.source-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.25);
+}
+
+/* Couleurs cohérentes avec dashboard + carte */
+.source-primary {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8); /* OpenGouv */
+}
+.source-success {
+  background: linear-gradient(135deg, #22c55e, #15803d); /* CanWin */
+}
+.source-warning {
+  background: linear-gradient(135deg, #f59e0b, #b45309); /* Données Québec */
+}
+.source-purple {
+  background: linear-gradient(135deg, #8b5cf6, #6d28d9); /* Boréalis */
+}
+
+/* ==========================================
+   🗺️ MINI CARTE (aperçu Accueil)
+   ========================================== */
+#miniMap {
+  height: 360px;
+  width: 100%;
+  border-radius: 1rem;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+}
+
+/* ==========================================
+   📊 GRAPHIQUES (Chart.js)
+   ========================================== */
+canvas {
+  margin-top: 40px;
+}
+
+/* ==========================================
+   🧭 NAVIGATION
+   ========================================== */
+.navbar {
+  font-weight: 500;
+}
+.navbar .nav-link {
+  transition: color 0.2s ease;
+}
+.navbar .nav-link:hover {
+  color: #facc15 !important;
+}
+
+/* ==========================================
+   🧾 LISTE DE DONNÉES / CARTES
+   ========================================== */
+.card-title {
+  font-weight: 600;
+  color: #111;
+}
+.card .btn {
+  border-radius: 999px;
+  background-color: #1515ec;
+  border: none;
+}
+.card .btn:hover {
+  background-color: #b91c1c;
+}
+
+/* ==========================================
+   🧭 PAGINATION
+   ========================================== */
+.pagination .page-link {
+  color: #2563eb;
+}
+.pagination .page-item.active .page-link {
+  background-color: #2563eb;
+  border-color: #2563eb;
+}
+
+/* ==========================================
+   🧱 FOOTER - À propos du projet OGSL
+   ========================================== */
+.ogsl-footer {
+  background-color: #36383a;
+  color: #ddd;
+  border-top: 1px solid #222;
+  width: 100%;
+}
+
+.ogsl-footer h4 {
+  font-weight: 400;
+  color: #f5f5f5;
+  letter-spacing: 0.5px;
+  font-size: 1.2rem;
+}
+
+.footer-text {
+  max-width: 850px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #ccc;
+  margin: 0 auto;
+}
+
+.footer-divider {
+  width: 80%;
+  border: 0;
+  border-top: 1px solid #f3f3f3;
+  margin: 2rem auto;
+}
+
+.tech-badge {
+  background-color: #222;
+  color: #f0f0f0;
+  border: 1px solid #444;
+  border-radius: 20px;
+  padding: 5px 12px;
+  font-size: 0.8rem;
+  transition: all 0.2s ease;
+}
+.tech-badge:hover {
+  background-color: #444;
+  color: #fff;
+}
+
+.footer-credit {
+  font-size: 0.85rem;
+  color: #bbb;
+}
+
+/* ==========================================
+   ⚙️ UTILITAIRES
+   ========================================== */
+.text-white-50 {
+  color: rgba(255, 255, 255, 0.65) !important;
+}

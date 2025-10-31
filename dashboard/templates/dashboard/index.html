@@ -1,0 +1,93 @@
+{% extends "portal/base.html" %}
+{% load static %}
+
+{% block title %}Tableau de bord — OGSL{% endblock %}
+
+{% block extra_head %}
+  <!-- Chart.js pour les graphiques -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Style spécifique au tableau de bord -->
+  <link rel="stylesheet" href="{% static 'dashboard/css/style.css' %}" />
+{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <!-- 🧭 Titre principal -->
+  <h1 class="text-center mb-4 text-primary fw-bold">
+    Tableau de bord OGSL
+  </h1>
+
+  <!-- 📊 Statistiques principales -->
+  <div class="row text-center g-3">
+    <!-- Nombre de sources -->
+    <div class="col-md-3">
+      <div class="card shadow-sm p-3 border-0">
+        <h6 class="text-muted mb-1">Sources</h6>
+        <h2 class="text-success fw-bold">{{ sources_count }}</h2>
+      </div>
+    </div>
+
+    <!-- Nombre d’organisations -->
+    <div class="col-md-3">
+      <div class="card shadow-sm p-3 border-0">
+        <h6 class="text-muted mb-1">Organisations</h6>
+        <h2 class="text-warning fw-bold">{{ organizations_count }}</h2>
+      </div>
+    </div>
+
+    <!-- Nombre de thèmes -->
+    <div class="col-md-3">
+      <div class="card shadow-sm p-3 border-0">
+        <h6 class="text-muted mb-1">Thèmes</h6>
+        <h2 class="text-info fw-bold">{{ themes_count }}</h2>
+      </div>
+    </div>
+
+    <!-- Nombre de jeux de données -->
+    <div class="col-md-3">
+      <div class="card shadow-sm p-3 border-0">
+        <h6 class="text-muted mb-1">Jeux de données</h6>
+        <h2 class="text-danger fw-bold">{{ datasets_count }}</h2>
+      </div>
+    </div>
+  </div>
+
+  <!-- 📈 Graphique 1 : répartition des jeux de données par source -->
+  <div class="mt-5">
+    <h4 class="text-center text-secondary mb-3">
+      Répartition des jeux de données par source
+    </h4>
+    <canvas id="datasetsChart" height="120"></canvas>
+  </div>
+
+  <!-- 🎯 Filtre : sélectionner une source -->
+  <div class="mt-5">
+    <h4 class="text-center text-secondary">Filtrer par source</h4>
+    <div class="d-flex justify-content-center mb-3">
+      <select id="sourceFilter" class="form-select w-50">
+        <option value="">-- Toutes les sources --</option>
+        {% for source in sources %}
+          <option value="{{ source.id }}">{{ source.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+
+  <!-- 🗂️ Graphique 2 : répartition des jeux de données par thème -->
+  <div class="mt-5">
+    <h4 class="text-center text-secondary mb-3">
+      Répartition des jeux de données par thème
+    </h4>
+    <canvas id="datasetsByThemeChart" height="120"></canvas>
+  </div>
+</div>
+
+<!-- 🔍 Bloc "À propos du projet OGSL" -->
+{% include 'portal/includes/about.html' %}
+{% endblock %}
+
+{% block extra_js %}
+  <!-- Script principal pour les graphiques -->
+  <script src="{% static 'dashboard/js/charts.js' %}"></script>
+{% endblock %}
