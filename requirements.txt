@@ -22,3 +22,4 @@ mysql-connector-python==9.0.0
 # Utilitaires
 requests==2.32.3
 beautifulsoup4==4.12.3
+django-colorfield==0.11.0
