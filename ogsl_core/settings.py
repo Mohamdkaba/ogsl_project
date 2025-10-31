@@ -112,9 +112,15 @@ DATABASES = {
     }
 }
 
-# 🔹 Si Render fournit une variable DATABASE_URL (ex. PostgreSQL), on l’utilise automatiquement
-if os.getenv("DATABASE_URL"):
-    DATABASES["default"] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+# 🔹 Si on est sur Render (DATABASE_URL = PostgreSQL)
+database_url = os.getenv("DATABASE_URL")
+if database_url:
+    DATABASES["default"] = dj_database_url.config(
+        default=database_url,
+        conn_max_age=600,
+        ssl_require=False if 'mysql' in database_url else True
+    )
+
 
 
 # =====================================================
