@@ -1,41 +1,16 @@
-# ============================================
-# ⚙️ Dépendances principales Django OGSL
-# ============================================
-
-# Core Django
-setuptools>=68.0.0
+# --- Noyau Django + DRF ---
 Django==5.2.7
 djangorestframework==3.15.2
 drf-yasg==1.21.7
-graphene-django==3.2.2
 django-filter==24.3
 
-# Authentification JWT
-djangorestframework-simplejwt==5.3.1
-
-# Interface Admin & Couleurs
-django-admin-interface==0.29.3
-django-colorfield==0.11.0
-
-# ============================================
-# 🚀 Déploiement Render
-# ============================================
+# --- Déploiement sur Render ---
 gunicorn==22.0.0
 whitenoise==6.7.0
 dj-database-url==2.3.0
 python-dotenv==1.0.1
-
-# Adaptateurs PostgreSQL
 psycopg2-binary==2.9.9
-psycopg==3.1.18
 
-# ============================================
-# 💾 Base de données locale (MySQL)
-# ============================================
-mysql-connector-python==9.0.0
-
-# ============================================
-# 🔧 Utilitaires divers
-# ============================================
+# --- Utilitaires (si ton code les utilise encore) ---
 requests==2.32.3
 beautifulsoup4==4.12.3

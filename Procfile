@@ -1,1 +1,2 @@
-web: gunicorn ogsl_core.wsgi
+web: gunicorn ogsl_core.wsgi:application
+
