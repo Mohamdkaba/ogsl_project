@@ -150,6 +150,7 @@ USE_TZ = True
 # =====================================================
 # 🧱 Fichiers statiques (CSS, JS, images)
 # =====================================================
+BASE_DIR = Path(__file__).resolve().parent.parent
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [BASE_DIR / "portal/static"]
@@ -183,3 +184,5 @@ GRAPHENE = {
 # ✅ Divers
 # =====================================================
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+DEBUG = os.getenv("DEBUG", "False") == "True"
