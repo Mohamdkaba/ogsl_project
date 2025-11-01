@@ -23,11 +23,8 @@ SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-7p@y41=9mkh*51=zk%%&n%pre2
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
 # Autoriser Render + localhost
-ALLOWED_HOSTS = [
-    "localhost",
-    "127.0.0.1",
-    ".onrender.com",
-]
+ALLOWED_HOSTS = ["ogsl-project.onrender.com", "localhost", "127.0.0.1"]
+
 
 
 # =====================================================
@@ -109,8 +106,15 @@ DATABASES = {
         'PASSWORD': 'admin123',
         'HOST': 'localhost',
         'PORT': '3306',
+
+
     }
 }
+
+# 🔹 Si Render fournit une base PostgreSQL (variable DATABASE_URL), on l’utilise automatiquement
+if os.getenv("DATABASE_URL"):
+    import dj_database_url
+    DATABASES["default"] = dj_database_url.config(conn_max_age=600, ssl_require=True)
 
 # 🔹 Si on est sur Render (DATABASE_URL = PostgreSQL)
 database_url = os.getenv("DATABASE_URL")
