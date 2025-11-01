@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: ogsl-project
+    env: python
+    plan: free
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn ogsl_core.wsgi:application"
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+
+jobs:
+  - type: worker
+    name: ogsl-migrate
+    env: python
+    plan: free
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: |
+      python manage.py makemigrations --noinput
+      python manage.py migrate --noinput
+      python manage.py collectstatic --noinput
