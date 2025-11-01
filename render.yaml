@@ -3,13 +3,14 @@ services:
     name: ogsl-project
     env: python
     plan: free
-    buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn ogsl_core.wsgi:application
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn ogsl_core.wsgi:application"
     envVars:
       - key: DATABASE_URL
-        fromDatabase:
-          name: ogsl-db
-          property: connectionString
+        sync: false
     postDeployCommand: |
-      python manage.py migrate
+      echo "🚀 Running migrations on Render Free Plan..."
+      python manage.py makemigrations --noinput
+      python manage.py migrate --noinput
       python manage.py collectstatic --noinput
+      echo "✅ Migrations completed successfully!"
